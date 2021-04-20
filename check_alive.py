@@ -126,7 +126,12 @@ if __name__ == '__main__':
                     help="ipaddr,eg 10.*.*.1") 
   parser.add_option("-o", "--output", action="store", 
                     dest="output", 
+					default= "out.txt",
                     help="save output result, eg out.txt") 
+  parser.add_option("-t", "--timeout", action="store", 
+                    dest="timeout", 
+					default='2',
+                    help="icmp timeout(s)") 
 
   (options, args) = parser.parse_args() 
 
@@ -134,8 +139,9 @@ if __name__ == '__main__':
     print("usage: alive.exe -h")
     sys.exit()
 
+  timeout = float(options.timeout)
   for target in star_convert(options.ip):
-    if verbose_ping(target,2,1):
+    if verbose_ping(target, timeout, 1):
       with open(options.output, 'a') as w:
         w.write(target + "\n")
 
